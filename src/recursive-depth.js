@@ -12,42 +12,26 @@ const { NotImplementedError } = require('../extensions/index.js');
  * depthCalc.calculateDepth([[[]]]) => 3
  *
  */
+Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+
 class DepthCalculator {
+  // calculateDepth(array) {
+  //   return Array.isArray(array) ? 1 + Math.max(0, ...array.map(calculateDepth)) : 0; 
+  // }
+  calculateDepth(arr){
+    if(arr.filter(item => item.constructor.name === "Array").length !== 0){
 
+        return 1 + this.calculateDepth([].concat(...arr.filter(item => {
+          return item.constructor.name === "Array"
+        })));
 
-  constructor() {
-    this.myDepth =  1;
-    this.depth = [1];
-  }
-
-  calculateDepth(arr, depthA = this.myDepth) {
-    let parentDepth = depthA;
-    let once = false;
-    arr.forEach(item =>{
-      if(item instanceof Array) {
-        if(!once) {
-          parentDepth++
-          once = true
-        }
-        this.depth.push(+parentDepth)
-        this.calculateDepth(item, parentDepth)
-      } else {
-        // console.log(123);
-      }
-    })
-    if(arr.every((item) => !(item instanceof Array))) {
-      console.log(Math.max(...this.depth));
-      return Math.max(...this.depth)
+    } else {
+        return 1;
     }
-    
   }
 }
-
-
-const instance = new DepthCalculator();
-const calculateDepth = instance.calculateDepth.bind(instance);
-
-calculateDepth([1, [8, [[]]], 2, 3, [8, [[[[[[[[[[[[[]]]]]]]]]]]]]], 4, 5, ['6575', ['adas', ['dfg', [0]]]]])
 
 
 module.exports = {
